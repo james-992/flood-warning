@@ -26,10 +26,3 @@ if __name__ == "__main__":
     print("*** Task 1A: CUED Part IA Flood Warning System ***")
     run()
 
-
-#can you see this change?
-
-#yes I can
-#so can I
-
-#can you see this?
