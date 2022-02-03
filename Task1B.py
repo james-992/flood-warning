@@ -4,7 +4,7 @@ from floodsystem.stationdata import build_station_list
 
 def run():
     """requirement for task 1b"""
-    
+
     #   build list of stations from stationdata module
     stations = build_station_list()
 
@@ -12,11 +12,13 @@ def run():
     p = (52.2053, 0.1218)
 
     #   create list of every sorted station
-    stations_sorted = stations_by_distance(stations ,p)
+    closest, farthest = stations_by_distance(stations ,p)
 
-    #   create new list for the 10 closest and 10 farthest stations
-    stations_closest = stations_sorted[:10]
-    stations_farthest =  stations_sorted[-10:]
-    
-    return stations_closest, stations_farthest
+    print (closest)
+    print()
+    print (farthest)
 
+
+if __name__ == "__main__":
+    print("*** Task 1B: CUED Part IA Flood Warning System ***")
+    run()
