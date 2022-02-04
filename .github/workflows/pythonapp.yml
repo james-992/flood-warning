@@ -39,6 +39,7 @@ jobs:
           python Task1B.py
           python Task1C.py
           python Task1F.py
+          python test_station.py
 
       - name: Run Deliverable 2 code
         run: |
