@@ -19,14 +19,14 @@ def stations_by_distance(stations, p):
     #   empty list that will eventually contain [stations_sorted] but with name, town, distance
     stations_ordered = []
     
-    print(stations_sorted)
+    #   temporary test for checking stations are sorted
+    #print(stations_sorted)
 
-    #   iterate over the sorted stations
     for station in stations_sorted:
         #   append tuples with required data into empty list
         stations_ordered.append((station.name, station.town, haversine(p, station.coord)))
 
-    #   slice the array 
+    #   slice the array accordingly
     closest_ten_stations = stations_ordered[:10]
     farthest_ten_stations = stations_ordered[-10:]
 

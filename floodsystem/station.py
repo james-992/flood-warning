@@ -6,6 +6,9 @@ for manipulating/modifying station data
 
 """
 
+from . import datafetcher
+
+
 
 class MonitoringStation:
     """This class represents a river level monitoring station"""
@@ -38,3 +41,31 @@ class MonitoringStation:
         d += "   river:         {}\n".format(self.river)
         d += "   typical range: {}".format(self.typical_range)
         return d
+
+    def typical_range_consistent(self):
+        """checks high/low range data for consistency"""
+
+        #   check for inconsistent data
+        if self.typical_range is None:
+            return False
+        elif self.typical_range[0] <= self.typical_range[1]:
+            return True
+        elif self.typical_range[0] > self.typical_range[1]:
+            return False
+        
+
+def inconsistent_typical_range_stations(stations):
+    """given list of stations, returns list of stations with inconsistent data"""
+
+    #   set empty list to append to
+    inconsistent_stations = []
+
+    #   iterate over the stations in the list of all stations
+    for station in stations:
+        #   use typical_Range_consistent method to append the station name to the list of inconsistent stations if the data IS inconsistent
+        if MonitoringStation.typical_range_consistent(station) is False:
+            inconsistent_stations.append(station.name)
+        else:
+            pass
+
+    return inconsistent_stations
