@@ -1,23 +1,41 @@
 from floodsystem.stationdata import build_station_list
-
+from floodsystem.geo import *
 
 stations = build_station_list()
 
-def rivers_with_station(stations):
+"""
+#check one, which print how many rivers have at least one monitoring station 
+and prints the first 10 of these rivers in alphabetical order
+"""
 
-    #creates a blank set for the towns to be added to
-    alltowns = set()
 
-    #gets town name and only adds it to the set, which does not contain duplicates
-    for station in stations:
-        alltowns.add(station.town)
+print("the number of rivers with at least one station is:")
+listofrivers = rivers_with_station(stations)
 
-    return alltowns
+sortedlist = sorted(listofrivers)
+print (len(sortedlist))
 
-print(rivers_with_station(stations))
+print("the first 10 rivers in the list are:")
+print (sortedlist[:10])
 
-def stations_by_river(stations):
-    #creates a blank dictionary 
-    objectsbyriver = {}
+
+"""
+Check two, where a list of the name of stations is printed for given rivers
+
+"""
+stationsonriver = stations_by_river(stations)
+
+#a function which return a sorted list of the names of stations for a given river
+def stationsongivenriver(stationsonriver, river):
+    listedstations = stationsonriver[river] 
+    stationnames = []
+    for station in listedstations:
+        stationnames.append(station.name) 
+    
+    return sorted(stationnames)
+
+river = "River Thames"
+
+print ("the stations on", river, " are:\n", stationsongivenriver(stationsonriver, river))
     
 

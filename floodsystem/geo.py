@@ -51,3 +51,50 @@ def stations_within_radius(stations, centre, r):
 
     #   sort the final list of stations within radius alphabetically
     return sorted(stations_in_radius)
+
+
+
+
+
+
+def rivers_with_station(stations):
+
+    #creates a blank set for the towns to be added to
+    allrivers = set()
+
+    #gets town name and only adds it to the set, which does not contain duplicates
+    for station in stations:
+        allrivers.add(station.river)
+
+    return allrivers
+
+
+
+
+#creates a dictionary which links a river name to all stations on that river, and the data included
+def stations_by_river(stations):
+    #creates a blank dictionary 
+    stationsbyriver = {}
+
+
+    for station in stations:
+        #checks to see if this river is allready in the dictionary 
+        #(this may be redundant, and could be made more efficiant)
+        if station.river in stationsbyriver:
+            #adds the new station to the river in the dictionary 
+            existingstations = stationsbyriver[station.river]
+            existingstations.append(station)
+    
+            stationsbyriver[station.river] = existingstations
+
+        
+        else:
+            #creates the new river in the dictionary, with the station
+
+            stationsbyriver[station.river] = [station]             
+
+    return stationsbyriver
+
+
+
+
