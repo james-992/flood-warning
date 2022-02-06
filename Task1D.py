@@ -18,6 +18,7 @@ print (len(sortedlist))
 print("the first 10 rivers in the list are:")
 print (sortedlist[:10])
 
+assert (len(sortedlist[:10])) == 10
 
 """
 Check two, where a list of the name of stations is printed for given rivers
@@ -38,4 +39,6 @@ river = "River Thames"
 
 print ("the stations on", river, " are:\n", stationsongivenriver(stationsonriver, river))
     
-
+assert type(stationsongivenriver(stationsonriver, river)) == list
+list = stationsongivenriver(stationsonriver, river)
+assert str(list[0]) == list[0]

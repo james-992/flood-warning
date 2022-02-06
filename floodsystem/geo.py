@@ -96,5 +96,60 @@ def stations_by_river(stations):
     return stationsbyriver
 
 
+"""
+Task E
+A function which determines the rivers with the greatest number of monitoring stations.
+It returns a list of (river name, number of stations) tuples, 
+sorted by the number of stations. In the case that there are more rivers
+with the same number of stations as the N th entry, include these rivers in the list
+"""
+
+
+
+# cycles through the list of river names generated previously fed into a function which returns the 
+# names of stations on the river.  
+def rivers_by_station_number(stations, N):
+
+    def stationsongivenriver(stations, river):
+        stationsonriver = stations_by_river(stations)
+        listedstations = stationsonriver[river] 
+        stationnames = []
+        for station in listedstations:
+            stationnames.append(station.name) 
+    
+        return sorted(stationnames)
+
+    allrivers = rivers_with_station(stations)
+    riverswithstationno = []
+    for river in allrivers:
+        noofstations = len(stationsongivenriver(stations, river))
+        #makes a tuple with river name and number of stations and adds it to the list
+
+        riverwithstationno = (river, noofstations)
+        riverswithstationno.append(riverwithstationno)
+    #sorts the list from highest to lowest number of stations
+  
+    sortedlist = sorted(riverswithstationno, key=lambda i: i[-1], reverse = True)
+    finallist = []
+
+    counter = 0 
+    #adds rivers to the list untill it has added N number of rivers
+    while counter < N:
+
+        finallist.append(sortedlist[counter])
+        counter +=1
+
+    #if the number of stations in the next river in the list is the same as the last, it
+    #continues to add these rivers to the list untill the condition is no longer met
+    while sortedlist[counter-1][1] == sortedlist[counter][1]:
+        finallist.append(sortedlist[counter])
+        counter += 1
+
+    return finallist
+
+
+
+
+
 
 
