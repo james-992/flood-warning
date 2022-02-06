@@ -59,7 +59,7 @@ def stations_within_radius(stations, centre, r):
 
 def rivers_with_station(stations):
 
-    #creates a blank set for the towns to be added to
+    #creates a blank set for the names of rivers to be added to
     allrivers = set()
 
     #gets town name and only adds it to the set, which does not contain duplicates
