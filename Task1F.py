@@ -10,9 +10,15 @@ def run():
     stations = build_station_list()
 
     #   call function from .station submodule to use built list of stations and also sort them alphabetically 
-    inconsistent_stations = sorted(inconsistent_typical_range_stations(stations))
+    inconsistent_stations, inconsistent_data = inconsistent_typical_range_stations(stations)
+
+    inconsistent_stations.sort()
 
     print(inconsistent_stations)
+
+    #   Assertions
+    assert len(inconsistent_data) == len(inconsistent_stations)
+    
 
 
 if __name__ == "__main__":
