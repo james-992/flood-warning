@@ -60,12 +60,16 @@ def inconsistent_typical_range_stations(stations):
     #   set empty list to append to
     inconsistent_stations = []
 
+    #   list for the data, purely for assertions
+    inconsistent_data = []
+
     #   iterate over the stations in the list of all stations
     for station in stations:
         #   use typical_Range_consistent method to append the station name to the list of inconsistent stations if the data IS inconsistent
         if MonitoringStation.typical_range_consistent(station) is False:
             inconsistent_stations.append(station.name)
+            inconsistent_data.append(station.typical_range)
         else:
             pass
 
-    return inconsistent_stations
+    return inconsistent_stations, inconsistent_data

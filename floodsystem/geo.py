@@ -19,7 +19,7 @@ def stations_by_distance(stations, p):
     #   empty list that will eventually contain [stations_sorted] but with name, town, distance
     stations_ordered = []
     
-    print(stations_sorted)
+    #print(stations_sorted)
 
     #   iterate over the sorted stations
     for station in stations_sorted:
@@ -42,7 +42,7 @@ def stations_within_radius(stations, centre, r):
     #   iterate over the complete list of stations
     for station in stations:
         #   compare distance of station to radius r
-        if haversine(centre, station.coord) < r:
+        if haversine(centre, station.coord, unit=Unit.KILOMETERS) < r:
             #   append stations to empty list
             stations_in_radius.append(station.name)
         else:
@@ -51,9 +51,6 @@ def stations_within_radius(stations, centre, r):
 
     #   sort the final list of stations within radius alphabetically
     return sorted(stations_in_radius)
-
-
-
 
 
 
