@@ -19,7 +19,7 @@ def run():
     for station in stations_in_radius:
         assert type(station) == str
 
-    assert len(stations_in_radius(stations, (52, 0), 1000)) > 0
+    assert len(stations_within_radius(stations, (52, 0), 1000)) > 0
 
 if __name__ == "__main__":
     print("*** Task 1C: CUED Part IA Flood Warning System ***")

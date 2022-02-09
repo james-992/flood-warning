@@ -19,7 +19,7 @@ def stations_by_distance(stations, p):
     #   empty list that will eventually contain [stations_sorted] but with name, town, distance
     stations_ordered = []
     
-    print(stations_sorted)
+    #print(stations_sorted)
 
     #   iterate over the sorted stations
     for station in stations_sorted:
