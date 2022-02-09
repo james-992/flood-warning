@@ -103,21 +103,21 @@ It returns a list of (river name, number of stations) tuples,
 sorted by the number of stations. In the case that there are more rivers
 with the same number of stations as the N th entry, include these rivers in the list
 """
+#this function is usefull for task E, as it returns a sorted list of stations that 
+#are on a given river
 
-
+def stationsongivenriver(stations, river):
+    stationsonriver = stations_by_river(stations)
+    listedstations = stationsonriver[river] 
+    stationnames = []
+    for station in listedstations:
+        stationnames.append(station.name) 
+    
+    return sorted(stationnames)
 
 # cycles through the list of river names generated previously fed into a function which returns the 
 # names of stations on the river.  
 def rivers_by_station_number(stations, N):
-
-    def stationsongivenriver(stations, river):
-        stationsonriver = stations_by_river(stations)
-        listedstations = stationsonriver[river] 
-        stationnames = []
-        for station in listedstations:
-            stationnames.append(station.name) 
-    
-        return sorted(stationnames)
 
     allrivers = rivers_with_station(stations)
     riverswithstationno = []
