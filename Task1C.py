@@ -12,13 +12,14 @@ def run():
     #   Centrepoint for the radius check
     centre_coord = (52.2053, 0.1218)
 
-    stations = stations_within_radius(stations, centre_coord, radius)
-    print(stations)
+    stations_in_radius = stations_within_radius(stations, centre_coord, radius)
+    print(stations_in_radius)
 
     #   Assertions
-    for station in stations:
+    for station in stations_in_radius:
         assert type(station) == str
 
+    assert len(stations_in_radius(stations, (52, 0), 1000)) > 0
 
 if __name__ == "__main__":
     print("*** Task 1C: CUED Part IA Flood Warning System ***")
