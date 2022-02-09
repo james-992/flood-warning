@@ -42,7 +42,7 @@ def stations_within_radius(stations, centre, r):
     #   iterate over the complete list of stations
     for station in stations:
         #   compare distance of station to radius r
-        if haversine(centre, station.coord) < r:
+        if haversine(centre, station.coord, unit=Unit.KILOMETERS) < r:
             #   append stations to empty list
             stations_in_radius.append(station.name)
         else:
@@ -51,9 +51,6 @@ def stations_within_radius(stations, centre, r):
 
     #   sort the final list of stations within radius alphabetically
     return sorted(stations_in_radius)
-
-
-
 
 
 
