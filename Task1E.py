@@ -4,7 +4,7 @@ from floodsystem.geo import *
 stations = build_station_list()
 
 
-print(rivers_by_station_number(stations, 13))
+print(rivers_by_station_number(stations, 9))
 
 samplelist = rivers_by_station_number(stations, 40) 
 
