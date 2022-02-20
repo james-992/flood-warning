@@ -52,6 +52,17 @@ class MonitoringStation:
             return True
         elif self.typical_range[0] > self.typical_range[1]:
             return False
+    
+    def relative_water_level(self):
+        """returns the latest water level as a ratio compared to the typical range"""
+        
+        #   Ignores any inconsistent data
+        if type(self.latest_level) != float or self.typical_range is None:
+            return None
+        else:
+            #   calculates the river level fraction by first calculating th
+            range = self.typical_range[1] - self.typical_range[0]
+            return (self.latest_level - self.typical_range[0])/range
         
 
 def inconsistent_typical_range_stations(stations):
