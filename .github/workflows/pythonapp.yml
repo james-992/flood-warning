@@ -41,6 +41,7 @@ jobs:
           python Task1D.py
           python Task1E.py
           python Task1F.py
+          python test_task1E.py
           python test_station.py
 
       - name: Run Deliverable 2 code
