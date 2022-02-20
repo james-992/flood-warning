@@ -31,14 +31,14 @@ dates, levels = (fetch_measure_levels(station_of_interest.measure_id,
 
 
 for station in stations:
-if station.name == station_name:
-    station_of_interest = station
-    break
+    if station.name == station_name:
+        station_of_interest = station
+        break
 
-if not station_of_interest:
-    raise ValueError("Station {} could not be found".format(station_name))
+    if not station_of_interest:
+        raise ValueError("Station {} could not be found".format(station_name))
 
-    
+
 #everything below here is the actual function
 
 
