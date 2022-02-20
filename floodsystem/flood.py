@@ -1,8 +1,5 @@
 """for task 2B"""
 
-from turtle import update
-
-from sympy import monic
 from floodsystem.station import MonitoringStation
 from floodsystem.stationdata import update_water_levels
 
