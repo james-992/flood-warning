@@ -55,7 +55,7 @@ class MonitoringStation:
     
     def relative_water_level(self):
         """returns the latest water level as a ratio compared to the typical range"""
-        
+
         #   Ignores any inconsistent data
         if type(self.latest_level) != float or self.typical_range is None:
             return None
