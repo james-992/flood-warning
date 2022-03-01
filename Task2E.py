@@ -1,38 +1,40 @@
-
-from floodsystem.datafetcher import *
-from floodsystem.stationdata import build_station_list
-from floodsystem.station import inconsistent_typical_range_stations
-from datetime import datetime, timedelta
-import matplotlib
-import matplotlib.pyplot as plt
-import datetime
-from floodsystem.datafetcher import fetch_measure_levels
-from floodsystem.plot import plot_water_levels
+from floodsystem.flood import stations_highest_rel_level
+from floodsystem.stationdata import build_station_list, update_water_levels
+from floodsystem.plot import *
 
 
-#input the number of days of data you want to show
-dt = 10
-# Station name to find
-station_name = "Abingdon Lock"
-
-# Build list of stations
+#   build and update the lsit of stations
 stations = build_station_list()
-station_of_interest = None
-for station in stations:
-    if station.name == station_name:
-        station_of_interest = station
-        break
+update_water_levels(stations)
 
-if not station_of_interest:
-    raise ValueError("Station {} could not be found".format(station_name))
+#   set variable N
+N = 5
+dt=10
 
-# find the dates and the levels associated 
+#   Print out stations as the questions requests
+for station in stations_highest_rel_level(stations, (N+1)):
+    station_name = station[0]
+    #specific_station = None
+    if station[0] == "Letcombe Bassett":
+        pass 
+    else: 
+        for station_obj in stations:
+            if station_obj.name == station_name:
+                specific_station = station_obj
+                print("hi")
+            else:
+                pass
 
-dates, levels = (fetch_measure_levels(station_of_interest.measure_id,
-                                     dt=datetime.timedelta(days=dt)))
- 
 
-plot_water_levels(station_of_interest, dates, levels)
+        print(specific_station.name)
+
+            
+        dates, levels = (fetch_measure_levels(specific_station.measure_id,
+                                            dt=datetime.timedelta(days=dt)))
+        plot_water_levels(specific_station, dates, levels)
+        
 
 
-                                    
+
+    
+
