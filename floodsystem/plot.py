@@ -48,3 +48,6 @@ def plot_water_levels(station, dates, levels):
     plt.tight_layout()  # This makes sure plot does not cut off date labels
 
     plt.show()
+
+
+#def plot_water_level_with_fit(station, dates, levels, p):
