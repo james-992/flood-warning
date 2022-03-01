@@ -46,9 +46,10 @@ def stations_highest_rel_level(stations, N):
         else:
             #   append station name and rel. water level to list
             stations_with_high_level.append((station.name, relative_water_level))
+            #stations_with_high_level.append(station)
     
     #   sort the stations in descending order 
     sorted_stations = sorted(stations_with_high_level, key=lambda tuple: tuple[1], reverse=True)
-
+    
     #   slice the array for N stations
     return sorted_stations[:N]
