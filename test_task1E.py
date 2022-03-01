@@ -13,6 +13,5 @@ def test_list_length_check():
     stations = build_station_list()
     samplelist = rivers_by_station_number(stations, 40) 
 
-    assert len(rivers_by_station_number(stations, 40)) == 47
     assert len(rivers_by_station_number(stations, 20)) < len(samplelist)
     assert len(rivers_by_station_number(stations, 13)) == len(rivers_by_station_number(stations, 14))
