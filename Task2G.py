@@ -15,7 +15,7 @@ def run():
     #   - stations_over_threshold()
 
     #   Weighted sum?
-    #   Find the change in river level over the previous couple days - is it increasing?
+    #   Find the change in river level over the previous couple days - is it increasing? USE TASK 2F POLYNOMIAL - CALC DY/DX
     #   
 
 
