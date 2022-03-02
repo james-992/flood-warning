@@ -7,7 +7,8 @@ def test_list_characteristics():
 
     for n in range (1, 15):
         assert len(stations_highest_rel_level(stations, n)) == n
-        assert type(stations_highest_rel_level(stations, n)) == tuple
-        assert type(stations_highest_rel_level(stations, n)[0]) == str
-        assert type(stations_highest_rel_level(stations, n)[1]) == float
+        assert type(stations_highest_rel_level(stations, n)) == list
+        assert type((stations_highest_rel_level(stations, n))[n-1]) == tuple
+        assert type((stations_highest_rel_level(stations, n)[n-1])[0]) == str
+        assert type((stations_highest_rel_level(stations, n)[n-1])[1]) == float
     
