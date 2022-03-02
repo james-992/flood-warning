@@ -40,6 +40,8 @@ def plot_water_levels(station, dates, levels):
     plt.xticks(rotation=45);
     plt.title(station.name)
 
+    plt.xlim([dates[0], dates[-1]])
+
 
     # Display plot
     plt.tight_layout()  # This makes sure plot does not cut off date labels
