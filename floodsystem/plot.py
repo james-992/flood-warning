@@ -8,12 +8,9 @@ and includes on the plot lines for the typical low and high levels.
 from floodsystem.datafetcher import *
 from floodsystem.stationdata import build_station_list
 from floodsystem.station import inconsistent_typical_range_stations
-from datetime import datetime, timedelta
 import matplotlib
 import matplotlib.pyplot as plt
-import datetime
-from floodsystem.datafetcher import fetch_measure_levels
-import matplotlib
+
 
 def plot_water_levels(station, dates, levels):
 
