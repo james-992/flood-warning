@@ -21,12 +21,10 @@ for station in stations_highest_rel_level(stations, (N+1)):
         for station_obj in stations:
             if station_obj.name == station_name:
                 specific_station = station_obj
-                print("hi")
+
             else:
                 pass
 
-
-        print(specific_station.name)
 
             
         dates, levels = (fetch_measure_levels(specific_station.measure_id,

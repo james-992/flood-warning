@@ -11,9 +11,9 @@ from floodsystem.plot import plot_water_levels
 
 
 #input the number of days of data you want to show
-dt = 10
+dt = 50
 # Station name to find
-station_name = "Hayes Basin"
+station_name = "Abingdon Lock"
 
 # Build list of stations
 stations = build_station_list()
