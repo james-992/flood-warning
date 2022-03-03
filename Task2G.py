@@ -147,19 +147,19 @@ def run():
 
 
 
-    print("There are", len(low_risk_stations), "low risk towns:")
+    print("\nThere are", len(low_risk_stations), "low risk towns:")
     for station in low_risk_stations:
         print(station)
 
-    print("There are", len(moderate_risk_stations), "moderate risk towns:")
+    print("\nThere are", len(moderate_risk_stations), "moderate risk towns:")
     for station in moderate_risk_stations:
         print(station)
     
-    print("There are", len(high_risk_stations), "high risk towns:")
+    print("\nThere are", len(high_risk_stations), "high risk towns:")
     for station in high_risk_stations:
         print(station)
 
-    print("There are", len(severe_risk_stations), "severe risk towns:")
+    print("\nThere are", len(severe_risk_stations), "severe risk towns:")
     for station in severe_risk_stations:
         print(station)
     
