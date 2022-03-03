@@ -3,13 +3,13 @@
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.datafetcher import *
 from floodsystem.analysis import *
-from floodsystem.flood import stations_highest_rel_level, stations_over_threshold
+from floodsystem.flood import stations_highest_rel_level
 from floodsystem.plot import *
 from floodsystem.datafetcher import *
 import numpy
 
 
-def find_rate_of_change(station):
+def risk_values(station):
     lower, upper = station.typical_range
     typicalrange = upper - lower
     #short range derivative
@@ -29,9 +29,10 @@ def find_rate_of_change(station):
     poly, d0 = polyfit(dates, levels, p)
     derivative2 = numpy.polyder(poly, m=1)   
     derivative2now = derivative2(0)
-    return derivative1now/typicalrange, derivative2now/typicalrange
+    #returns the derivative scaled relative to the typical range from both 1 day and 1 week
+    return(derivative1now/typicalrange, derivative2now/typicalrange)
 
-"""N = 5
+N = 5
 stations = build_station_list()
 update_water_levels(stations)
 
@@ -39,17 +40,17 @@ for station in stations_highest_rel_level(stations, (N+1)):
     station_name = station[0]
     #specific_station = None
     if station[0] == "Letcombe Bassett":
-        print("Letcombe Bassett is not shown, it's data is codswallop")
+        print("Letcombe Bassett is not shown, it's data is bad")
         pass 
     else: 
         for station_obj in stations:
             if station_obj.name == station_name:
                 specific_station = station_obj
-                derivative1, derivative2 = find_rate_of_change(specific_station)
-                print(station_name, derivative1, derivative2)
+                h, derivative1, derivative2 = risk_values(specific_station)
+                print(derivative1, derivative2)
 
             else:
-                pass"""
+                pass
             
             
                 
@@ -74,53 +75,6 @@ def run():
     #   Weighted sum?
     #   Find the change in river level over the previous couple days - is it increasing? USE TASK 2F POLYNOMIAL - CALC DY/DX
     #   
-
-    C1 = 1
-    C2 = 1
-
-    low = 1.0
-    moderate = 1.5
-    high = 2.0
-    severe = 2.5
-
-
-    tol = 1
-
-    #   find stations above arbitrary tolerance
-    stations_above_threshold_init = stations_over_threshold(stations, tol)
-
-    #   create empty list for the station obj to be appended to
-    stations_above_threshold = []
-
-    for station in stations_above_threshold_init:
-        
-        for station_obj in stations:
-            #   finding the station objects
-
-            if station[0] == station_obj.name:
-                stations_above_threshold.append(station_obj)
-
-    classification_list = []
-
-    for station in stations_above_threshold:
-        h, grad1, grad2 = find_rate_of_change()
-
-        risk_factor = h + C1*grad1 + C2*grad2
-
-        if risk_factor >= low:
-            classification_list.append(station.town, "low")
-        elif risk_factor >= moderate:
-            classification_list.append(station.town, "moderate")
-        elif risk_factor >= high:
-            classification_list.append(station.town, "high")
-        elif risk_factor >= severe:
-            classification_list.append(station.town, "severe")
-    
-    
-
-
-
-
 
 
 
