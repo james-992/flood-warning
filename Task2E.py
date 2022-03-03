@@ -8,14 +8,18 @@ def run():
     stations = build_station_list()
     update_water_levels(stations)
 
-    #   set variable N
+    #   set variable N, which is the number of stations being considered (ignoring letcombe bassett)
     N = 5
+
+    #number of days the graph should go across
     dt=10
 
-    #   Print out stations as the questions requests
+    #This part finds the station objects in stations from the names given by 
+    # the stations_highest_rel_level function
     for station in stations_highest_rel_level(stations, (N+1)):
+
         station_name = station[0]
-        #specific_station = None
+        #ignores letcombe bassett because it's data is problematic
         if station[0] == "Letcombe Bassett":
             pass 
         else: 
