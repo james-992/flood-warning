@@ -1,6 +1,63 @@
 
 
 from floodsystem.stationdata import build_station_list, update_water_levels
+from floodsystem.datafetcher import *
+from floodsystem.analysis import *
+from floodsystem.flood import stations_highest_rel_level
+from floodsystem.plot import *
+from floodsystem.datafetcher import *
+import numpy
+
+
+def find_rate_of_change(station):
+    lower, upper = station.typical_range
+    typicalrange = upper - lower
+    #short range derivative
+    p = 4
+    dt = 1
+    dates, levels = (fetch_measure_levels(station.measure_id,
+                                        dt=datetime.timedelta(days=dt)))
+    poly, d0 = polyfit(dates, levels, p)
+    derivative1 = numpy.polyder(poly, m=1)   
+    derivative1now = derivative1(0)
+    #long range derivative
+    dt = 7
+    p = 4
+    dates, levels = (fetch_measure_levels(station.measure_id,
+                     dt=datetime.timedelta(days=dt)))  
+
+    poly, d0 = polyfit(dates, levels, p)
+    derivative2 = numpy.polyder(poly, m=1)   
+    derivative2now = derivative2(0)
+    return(derivative1now/typicalrange, derivative2now/typicalrange)
+
+N = 5
+stations = build_station_list()
+update_water_levels(stations)
+
+for station in stations_highest_rel_level(stations, (N+1)):
+    station_name = station[0]
+    #specific_station = None
+    if station[0] == "Letcombe Bassett":
+        print("Letcombe Bassett is not shown, it's data is bad")
+        pass 
+    else: 
+        for station_obj in stations:
+            if station_obj.name == station_name:
+                specific_station = station_obj
+                derivative1, derivative2 = find_rate_of_change(specific_station)
+                print(derivative1, derivative2)
+
+            else:
+                pass
+            
+            
+                
+
+
+                        
+
+
 
 
 def run():

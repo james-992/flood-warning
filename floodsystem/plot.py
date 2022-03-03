@@ -74,15 +74,16 @@ def plot_water_level_with_fit(station, dates, levels, p):
         plt.axhline(y = lower, color = 'g', linestyle = '-')
 
     # Plot original data points
-    plt.plot(x, y, '.')
+    plt.plot(x-x[0], y, '.')
 
     # Plot polynomial fit at 30 points along interval (note that polynomial
     # is evaluated using the shift x)
+    matplotlib.pyplot.xlabel("time from present / days")
+    matplotlib.pyplot.ylabel("water height / m")
     x1 = np.linspace(x[0], x[-1], 30)
-    plt.plot(x1, poly(x1 - x[0]))
+    plt.plot(x1-x[0], poly(x1 - x[0]))
     plt.title(station.name)
 
     # Display plot
     plt.show()
-    print ("polly is", poly)
 

@@ -24,6 +24,7 @@ def run():
         station_name = station[0]
         #specific_station = None
         if station[0] == "Letcombe Bassett":
+            print("Letcombe Bassett is not shown, it's data is bad")
             pass 
         else: 
             for station_obj in stations:
@@ -38,45 +39,16 @@ def run():
             dates, levels = (fetch_measure_levels(specific_station.measure_id,
                                                 dt=datetime.timedelta(days=dt)))
             plot_water_level_with_fit(specific_station, dates, levels, p)
+            poly, d0 = polyfit(dates, levels, p)
+            print("poly is ", poly)
+            print("offset is", d0)
+
+
 
        
 
 if __name__ == "__main__":
-    print("Task 2E Running...")
+    print("Task 2F Running...")
     run()
 
 
-
-
-
-"""
-station_name = "Abingdon Lock"
-dt = 2
-# Build list of stations
-stations = build_station_list()
-station_of_interest = None
-for station in stations:
-    if station.name == station_name:
-        station_of_interest = station
-        break
-
-if not station_of_interest:
-    raise ValueError("Station {} could not be found".format(station_name))
-
-# find the dates and the levels associated 
-
-dates, levels = (fetch_measure_levels(station_of_interest.measure_id,
-                                     dt=datetime.timedelta(days=dt)))
-
-p = 10
-"""
-
-"""
-for 
-plot_water_level_with_fit(station_of_interest, dates, levels, p)
-
-poly, d0 =polyfit(dates, levels, 5)
-
-print ("poly is", poly)
-print("d0 is " , d0)
-"""

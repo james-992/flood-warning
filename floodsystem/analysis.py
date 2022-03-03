@@ -17,8 +17,7 @@ def polyfit(dates, levels, p):
     # e.g. poly(0.3)
     poly = np.poly1d(p_coeff)
 
-
-    print ("polly is", poly)
+ #   print ("polly is", poly)
     return (poly, x[0])
 
 
