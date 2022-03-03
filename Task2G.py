@@ -75,6 +75,14 @@ def run():
     #   Find the change in river level over the previous couple days - is it increasing? USE TASK 2F POLYNOMIAL - CALC DY/DX
     #   
 
+    C1 = 1
+    C2 = 1
+
+    low = 1.0
+    moderate = 1.5
+    high = 2.0
+    severe = 2.5
+
 
     tol = 1
 
@@ -97,7 +105,19 @@ def run():
     for station in stations_above_threshold:
         h, grad1, grad2 = find_rate_of_change()
 
-        risk_factor = 
+        risk_factor = h + C1*grad1 + C2*grad2
+
+        if risk_factor >= low:
+            classification_list.append(station.town, "low")
+        elif risk_factor >= moderate:
+            classification_list.append(station.town, "moderate")
+        elif risk_factor >= high:
+            classification_list.append(station.town, "high")
+        elif risk_factor >= severe:
+            classification_list.append(station.town, "severe")
+    
+    
+
 
 
 
