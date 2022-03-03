@@ -10,6 +10,7 @@ from floodsystem.stationdata import build_station_list
 from floodsystem.station import inconsistent_typical_range_stations
 import matplotlib
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def plot_water_levels(station, dates, levels):
@@ -40,7 +41,7 @@ def plot_water_levels(station, dates, levels):
     plt.xticks(rotation=45);
     plt.title(station.name)
 
-    plt.xlim([dates[0], dates[-1]])
+  #  plt.xlim([dates[0], dates[-1]])
 
 
     # Display plot
@@ -49,4 +50,39 @@ def plot_water_levels(station, dates, levels):
     plt.show()
 
 
-#def plot_water_level_with_fit(station, dates, levels, p):
+
+def plot_water_level_with_fit(station, dates, levels, p):
+    x = matplotlib.dates.date2num(dates)
+    y = levels
+
+    # Using shifted x values, find coefficient of best-fit
+    # polynomial f(x) of degree 4
+    p_coeff = np.polyfit(x - x[0], y, p)
+
+    # Convert coefficient into a polynomial that can be evaluated
+    # e.g. poly(0.3)
+    poly = np.poly1d(p_coeff)
+        #checks to see if the requested station has consistant upper and lower bounds which can be plotted
+    stations = build_station_list()
+    inconsistent_stations, inconsistent_data = inconsistent_typical_range_stations(stations)
+    if station in inconsistent_stations:
+        print ("cannot show typical ranges as the data is inconsistant")
+        pass
+    else:
+        lower, upper = station.typical_range
+        plt.axhline(y=upper, color='r', linestyle='-')
+        plt.axhline(y = lower, color = 'g', linestyle = '-')
+
+    # Plot original data points
+    plt.plot(x, y, '.')
+
+    # Plot polynomial fit at 30 points along interval (note that polynomial
+    # is evaluated using the shift x)
+    x1 = np.linspace(x[0], x[-1], 30)
+    plt.plot(x1, poly(x1 - x[0]))
+    plt.title(station.name)
+
+    # Display plot
+    plt.show()
+    print ("polly is", poly)
+
