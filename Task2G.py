@@ -100,7 +100,7 @@ def run():
             if station[0] == station_obj.name:
                 stations_above_threshold.append(station_obj)
 
-    classification_list = []
+    classification_list_init = []
 
     for station in stations_above_threshold:
         h, grad1, grad2 = find_rate_of_change()
@@ -108,14 +108,18 @@ def run():
         risk_factor = h + C1*grad1 + C2*grad2
 
         if risk_factor >= low:
-            classification_list.append(station.town, "low")
+            classification_list_init.append(station.town, "low")
         elif risk_factor >= moderate:
-            classification_list.append(station.town, "moderate")
+            classification_list_init.append(station.town, "moderate")
         elif risk_factor >= high:
-            classification_list.append(station.town, "high")
+            classification_list_init.append(station.town, "high")
         elif risk_factor >= severe:
-            classification_list.append(station.town, "severe")
+            classification_list_init.append(station.town, "severe")
     
+    classification_list = []
+    for station in classification_list_init:
+        if station[0] not in classification_list:
+            classification_list.append(station[0])
     
 
 
