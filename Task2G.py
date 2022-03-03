@@ -3,10 +3,12 @@
 from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.datafetcher import *
 from floodsystem.analysis import *
-from floodsystem.flood import stations_highest_rel_level
+from floodsystem.flood import stations_highest_rel_level, stations_over_threshold
 from floodsystem.plot import *
 from floodsystem.datafetcher import *
 import numpy
+from floodsystem.stationdata import MonitoringStation
+
 
 
 def risk_values(station):
@@ -29,8 +31,10 @@ def risk_values(station):
     poly, d0 = polyfit(dates, levels, p)
     derivative2 = numpy.polyder(poly, m=1)   
     derivative2now = derivative2(0)
+    h = MonitoringStation.relative_water_level(station)
+
     #returns the derivative scaled relative to the typical range from both 1 day and 1 week
-    return(derivative1now/typicalrange, derivative2now/typicalrange)
+    return(h, derivative1now/typicalrange, derivative2now/typicalrange)
 
 N = 5
 stations = build_station_list()
@@ -47,7 +51,7 @@ for station in stations_highest_rel_level(stations, (N+1)):
             if station_obj.name == station_name:
                 specific_station = station_obj
                 h, derivative1, derivative2 = risk_values(specific_station)
-                print(derivative1, derivative2)
+                print(station_name, h, derivative1, derivative2)
 
             else:
                 pass
