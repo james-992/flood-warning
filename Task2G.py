@@ -17,8 +17,12 @@ def risk_values(station):
     #short range derivative
     p = 4
     dt = 1
+    print(station)
     dates, levels = (fetch_measure_levels(station.measure_id,
                                         dt=datetime.timedelta(days=dt)))
+
+    print(levels)
+
     poly, d0 = polyfit(dates, levels, p)
     derivative1 = numpy.polyder(poly, m=1)   
     derivative1now = derivative1(0)
@@ -34,9 +38,9 @@ def risk_values(station):
     h = MonitoringStation.relative_water_level(station)
 
     #returns the derivative scaled relative to the typical range from both 1 day and 1 week
-    return(h, derivative1now/typicalrange, derivative2now/typicalrange)
+    return h, derivative1now/typicalrange, derivative2now/typicalrange
 
-N = 5
+"""N = 5
 stations = build_station_list()
 update_water_levels(stations)
 
@@ -54,14 +58,7 @@ for station in stations_highest_rel_level(stations, (N+1)):
                 print(station_name, h, derivative1, derivative2)
 
             else:
-                pass
-            
-            
-                
-
-
-                        
-
+                pass"""
 
 
 
@@ -72,13 +69,14 @@ def run():
     stations = build_station_list()
     update_water_levels(stations)
 
+    print(risk_values(stations[0]))
+
     #   WAYS OF MEASURING RISK
     #   - stations_with_highest_rel_level()
     #   - stations_over_threshold()
 
     #   Weighted sum?
     #   Find the change in river level over the previous couple days - is it increasing? USE TASK 2F POLYNOMIAL - CALC DY/DX
-    #   
 
     C1 = 1
     C2 = 1
@@ -108,19 +106,33 @@ def run():
     classification_list_init = []
 
     for station in stations_above_threshold:
-        h, grad1, grad2 = find_rate_of_change()
+        
 
-        risk_factor = h + C1*grad1 + C2*grad2
+        if station.name == "Letcombe Bassett":
+            continue
+        """if station.name == "Bissoe":
+            continue
+        else:"""
 
-        if risk_factor >= low:
-            classification_list_init.append(station.town, "low")
-        elif risk_factor >= moderate:
-            classification_list_init.append(station.town, "moderate")
-        elif risk_factor >= high:
-            classification_list_init.append(station.town, "high")
-        elif risk_factor >= severe:
-            classification_list_init.append(station.town, "severe")
-    
+        try:
+            h, grad1, grad2 = risk_values(station)
+
+            risk_factor = h + C1*grad1 + C2*grad2
+
+            if risk_factor >= low:
+                classification_list_init.append((station.town, "low"))
+            elif risk_factor >= moderate:
+                classification_list_init.append((station.town, "moderate"))
+            elif risk_factor >= high:
+                classification_list_init.append((station.town, "high"))
+            elif risk_factor >= severe:
+                classification_list_init.append((station.town, "severe"))
+        
+        except KeyError or IndexError:
+            print(station.name)
+        
+    print(classification_list_init)
+
     classification_list = []
     for station in classification_list_init:
         if station[0] not in classification_list:
