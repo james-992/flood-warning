@@ -37,6 +37,11 @@ def risk_values(station):
     derivative2now = derivative2(0)
     h = MonitoringStation.relative_water_level(station)
 
+
+    if derivative2now > 6:
+        derivative2now = 6
+        
+
     #returns the derivative scaled relative to the typical range from both 1 day and 1 week
     return h, derivative1now/typicalrange, derivative2now/typicalrange
 
