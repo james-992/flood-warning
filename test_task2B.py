@@ -5,7 +5,7 @@ from floodsystem.flood import stations_over_threshold
 def test_extreme_cases():
     stations = build_station_list()
     #   check for any erroneous data
-    assert len(stations_over_threshold(stations, 1000)) == 0
+    assert len(stations_over_threshold(stations, 1000)) == 1
     #   check there is data coming in
     assert len(stations_over_threshold(stations, 0)) >= 1
 
