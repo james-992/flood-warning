@@ -17,11 +17,9 @@ def risk_values(station):
     #short range derivative
     p = 4
     dt = 1
-    print(station)
+    
     dates, levels = (fetch_measure_levels(station.measure_id,
                                         dt=datetime.timedelta(days=dt)))
-
-    print(levels)
 
     poly, d0 = polyfit(dates, levels, p)
     derivative1 = numpy.polyder(poly, m=1)   
@@ -37,33 +35,20 @@ def risk_values(station):
     derivative2now = derivative2(0)
     h = MonitoringStation.relative_water_level(station)
 
+<<<<<<< HEAD
 
     if derivative2now > 6:
         derivative2now = 6
         
+=======
+    #   setting a limit for the derivative over the shorter time period as it is susceptible to being very high
+    d2lim = 6
+    if derivative2now > d2lim or derivative2now < (-d2lim):
+        derivative2now = d2lim
+>>>>>>> 9593eb95f511bc334383caa70b4387e0fbc1471f
 
     #returns the derivative scaled relative to the typical range from both 1 day and 1 week
     return h, derivative1now/typicalrange, derivative2now/typicalrange
-
-"""N = 5
-stations = build_station_list()
-update_water_levels(stations)
-
-for station in stations_highest_rel_level(stations, (N+1)):
-    station_name = station[0]
-    #specific_station = None
-    if station[0] == "Letcombe Bassett":
-        print("Letcombe Bassett is not shown, it's data is bad")
-        pass 
-    else: 
-        for station_obj in stations:
-            if station_obj.name == station_name:
-                specific_station = station_obj
-                h, derivative1, derivative2 = risk_values(specific_station)
-                print(station_name, h, derivative1, derivative2)
-
-            else:
-                pass"""
 
 
 
@@ -71,27 +56,21 @@ def run():
     """Assessing flood risk based off the implementations done in both milestones. Rated from 'severe', 'high', 'moderate', and 'low.
         Should list the TOWNS where flood risk is greatest'"""
     
+    #   build and update station list
     stations = build_station_list()
     update_water_levels(stations)
 
-    print(risk_values(stations[0]))
-
-    #   WAYS OF MEASURING RISK
-    #   - stations_with_highest_rel_level()
-    #   - stations_over_threshold()
-
-    #   Weighted sum?
-    #   Find the change in river level over the previous couple days - is it increasing? USE TASK 2F POLYNOMIAL - CALC DY/DX
-
+    #   define risk factor coefficients
+    C0 = 3
     C1 = 1
-    C2 = 1
+    C2 = 0.5
 
-    low = 1.0
+    #   define risk level limits
     moderate = 1.5
-    high = 2.0
-    severe = 2.5
+    high = 3.0
+    severe = 8.0
 
-
+    #   threshold tolerance for rel water level
     tol = 1
 
     #   find stations above arbitrary tolerance
@@ -112,40 +91,78 @@ def run():
 
     for station in stations_above_threshold:
         
-
-        if station.name == "Letcombe Bassett":
+        if station.name == "Letcombe Bassett" or station.town == None:
             continue
-        """if station.name == "Bissoe":
-            continue
-        else:"""
 
+
+        #   Spot errors in data and do not use them
         try:
             h, grad1, grad2 = risk_values(station)
-
-            risk_factor = h + C1*grad1 + C2*grad2
-
-            if risk_factor >= low:
-                classification_list_init.append((station.town, "low"))
-            elif risk_factor >= moderate:
-                classification_list_init.append((station.town, "moderate"))
-            elif risk_factor >= high:
-                classification_list_init.append((station.town, "high"))
-            elif risk_factor >= severe:
-                classification_list_init.append((station.town, "severe"))
+        except IndexError:
+            print("Inconsistent data, the problematic station is: ", station.name)
+            continue
         
-        except KeyError or IndexError:
-            print(station.name)
-        
-    print(classification_list_init)
 
-    classification_list = []
-    for station in classification_list_init:
-        if station[0] not in classification_list:
-            classification_list.append(station[0])
+        #   Defining our 'risk_factor'
+        risk_factor = (C0*(h-tol)) + (C1*grad1) + (C2*grad2)
+
+        #   apply different risk levels dependent on risk factor
+        if risk_factor < 0:
+            continue
+        elif risk_factor <= moderate:
+            classification_list_init.append((station.town, risk_factor, "low"))
+        elif risk_factor <= high:
+            classification_list_init.append((station.town, risk_factor,"moderate"))
+        elif risk_factor <= severe:
+            classification_list_init.append((station.town, risk_factor,"high"))
+        else:
+            classification_list_init.append((station.town, risk_factor,"severe"))
     
+        
+
+    #   empty list for non-duplicate towns
+    classification_list = []
+
+    for station in classification_list_init:
+        #   iterating over full list of risky towns
+
+        if station[0] not in classification_list:
+            classification_list.append(station) 
+    
+    #   sorting into separate lists:
+    low_risk_stations = []
+    moderate_risk_stations = []
+    high_risk_stations = []
+    severe_risk_stations = []
+
+    for station in classification_list:
+        if station[2] == 'low':
+            low_risk_stations.append(station[0])
+        elif station[2] == 'moderate':
+            moderate_risk_stations.append(station[0])
+        elif station[2] == 'high':
+            high_risk_stations.append(station[0])
+        elif station[2] == 'severe':
+            severe_risk_stations.append(station[0])
 
 
 
+    print("There are", len(low_risk_stations), "low risk towns:")
+    for station in low_risk_stations:
+        print(station)
+
+    print("There are", len(moderate_risk_stations), "moderate risk towns:")
+    for station in moderate_risk_stations:
+        print(station)
+    
+    print("There are", len(high_risk_stations), "high risk towns:")
+    for station in high_risk_stations:
+        print(station)
+
+    print("There are", len(severe_risk_stations), "severe risk towns:")
+    for station in severe_risk_stations:
+        print(station)
+    
 
 
 
